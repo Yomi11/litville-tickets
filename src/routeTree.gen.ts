@@ -10,33 +10,115 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ChartsRouteImport } from './routes/charts'
+import { Route as CommunityRouteImport } from './routes/community'
+import { Route as LivestreamRouteImport } from './routes/livestream'
+import { Route as OrganisersRouteImport } from './routes/organisers'
+import { Route as EventSlugRouteImport } from './routes/event.$slug'
+import { Route as TicketReferenceRouteImport } from './routes/ticket.$reference'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ChartsRoute = ChartsRouteImport.update({
+  id: '/charts',
+  path: '/charts',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CommunityRoute = CommunityRouteImport.update({
+  id: '/community',
+  path: '/community',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LivestreamRoute = LivestreamRouteImport.update({
+  id: '/livestream',
+  path: '/livestream',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OrganisersRoute = OrganisersRouteImport.update({
+  id: '/organisers',
+  path: '/organisers',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EventSlugRoute = EventSlugRouteImport.update({
+  id: '/event/$slug',
+  path: '/event/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TicketReferenceRoute = TicketReferenceRouteImport.update({
+  id: '/ticket/$reference',
+  path: '/ticket/$reference',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/charts': typeof ChartsRoute
+  '/community': typeof CommunityRoute
+  '/livestream': typeof LivestreamRoute
+  '/organisers': typeof OrganisersRoute
+  '/event/$slug': typeof EventSlugRoute
+  '/ticket/$reference': typeof TicketReferenceRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/charts': typeof ChartsRoute
+  '/community': typeof CommunityRoute
+  '/livestream': typeof LivestreamRoute
+  '/organisers': typeof OrganisersRoute
+  '/event/$slug': typeof EventSlugRoute
+  '/ticket/$reference': typeof TicketReferenceRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/charts': typeof ChartsRoute
+  '/community': typeof CommunityRoute
+  '/livestream': typeof LivestreamRoute
+  '/organisers': typeof OrganisersRoute
+  '/event/$slug': typeof EventSlugRoute
+  '/ticket/$reference': typeof TicketReferenceRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/charts'
+    | '/community'
+    | '/livestream'
+    | '/organisers'
+    | '/event/$slug'
+    | '/ticket/$reference'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/charts'
+    | '/community'
+    | '/livestream'
+    | '/organisers'
+    | '/event/$slug'
+    | '/ticket/$reference'
+  id:
+    | '__root__'
+    | '/'
+    | '/charts'
+    | '/community'
+    | '/livestream'
+    | '/organisers'
+    | '/event/$slug'
+    | '/ticket/$reference'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ChartsRoute: typeof ChartsRoute
+  CommunityRoute: typeof CommunityRoute
+  LivestreamRoute: typeof LivestreamRoute
+  OrganisersRoute: typeof OrganisersRoute
+  EventSlugRoute: typeof EventSlugRoute
+  TicketReferenceRoute: typeof TicketReferenceRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +130,59 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/charts': {
+      id: '/charts'
+      path: '/charts'
+      fullPath: '/charts'
+      preLoaderRoute: typeof ChartsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/community': {
+      id: '/community'
+      path: '/community'
+      fullPath: '/community'
+      preLoaderRoute: typeof CommunityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/livestream': {
+      id: '/livestream'
+      path: '/livestream'
+      fullPath: '/livestream'
+      preLoaderRoute: typeof LivestreamRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/organisers': {
+      id: '/organisers'
+      path: '/organisers'
+      fullPath: '/organisers'
+      preLoaderRoute: typeof OrganisersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/event/$slug': {
+      id: '/event/$slug'
+      path: '/event/$slug'
+      fullPath: '/event/$slug'
+      preLoaderRoute: typeof EventSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ticket/$reference': {
+      id: '/ticket/$reference'
+      path: '/ticket/$reference'
+      fullPath: '/ticket/$reference'
+      preLoaderRoute: typeof TicketReferenceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ChartsRoute: ChartsRoute,
+  CommunityRoute: CommunityRoute,
+  LivestreamRoute: LivestreamRoute,
+  OrganisersRoute: OrganisersRoute,
+  EventSlugRoute: EventSlugRoute,
+  TicketReferenceRoute: TicketReferenceRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
