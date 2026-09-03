@@ -14,7 +14,238 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      events: {
+        Row: {
+          capacity: number
+          city: string
+          created_at: string
+          description: string
+          doors_open: string | null
+          headliner: string
+          id: string
+          poster_url: string | null
+          slug: string
+          starts_at: string
+          status: string
+          supporting_acts: string | null
+          title: string
+          venue: string
+        }
+        Insert: {
+          capacity?: number
+          city?: string
+          created_at?: string
+          description?: string
+          doors_open?: string | null
+          headliner: string
+          id?: string
+          poster_url?: string | null
+          slug: string
+          starts_at: string
+          status?: string
+          supporting_acts?: string | null
+          title: string
+          venue: string
+        }
+        Update: {
+          capacity?: number
+          city?: string
+          created_at?: string
+          description?: string
+          doors_open?: string | null
+          headliner?: string
+          id?: string
+          poster_url?: string | null
+          slug?: string
+          starts_at?: string
+          status?: string
+          supporting_acts?: string | null
+          title?: string
+          venue?: string
+        }
+        Relationships: []
+      }
+      orders: {
+        Row: {
+          amount_kobo: number
+          buyer_email: string
+          buyer_name: string
+          buyer_phone: string | null
+          created_at: string
+          event_id: string
+          id: string
+          paid_at: string | null
+          payment_reference: string
+          quantity: number
+          split_count: number
+          status: string
+          ticket_code: string | null
+          tier_id: string
+          zone_name: string | null
+        }
+        Insert: {
+          amount_kobo: number
+          buyer_email: string
+          buyer_name: string
+          buyer_phone?: string | null
+          created_at?: string
+          event_id: string
+          id?: string
+          paid_at?: string | null
+          payment_reference: string
+          quantity?: number
+          split_count?: number
+          status?: string
+          ticket_code?: string | null
+          tier_id: string
+          zone_name?: string | null
+        }
+        Update: {
+          amount_kobo?: number
+          buyer_email?: string
+          buyer_name?: string
+          buyer_phone?: string | null
+          created_at?: string
+          event_id?: string
+          id?: string
+          paid_at?: string | null
+          payment_reference?: string
+          quantity?: number
+          split_count?: number
+          status?: string
+          ticket_code?: string | null
+          tier_id?: string
+          zone_name?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "orders_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "orders_tier_id_fkey"
+            columns: ["tier_id"]
+            isOneToOne: false
+            referencedRelation: "ticket_tiers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      reviews: {
+        Row: {
+          author_name: string
+          body: string
+          created_at: string
+          id: string
+          rating: number
+          subject_title: string
+          subject_type: string
+        }
+        Insert: {
+          author_name: string
+          body?: string
+          created_at?: string
+          id?: string
+          rating: number
+          subject_title: string
+          subject_type?: string
+        }
+        Update: {
+          author_name?: string
+          body?: string
+          created_at?: string
+          id?: string
+          rating?: number
+          subject_title?: string
+          subject_type?: string
+        }
+        Relationships: []
+      }
+      ticket_tiers: {
+        Row: {
+          created_at: string
+          description: string
+          event_id: string
+          id: string
+          name: string
+          perks: string[]
+          price_kobo: number
+          quantity: number
+          sold: number
+          sort_order: number
+        }
+        Insert: {
+          created_at?: string
+          description?: string
+          event_id: string
+          id?: string
+          name: string
+          perks?: string[]
+          price_kobo: number
+          quantity?: number
+          sold?: number
+          sort_order?: number
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          event_id?: string
+          id?: string
+          name?: string
+          perks?: string[]
+          price_kobo?: number
+          quantity?: number
+          sold?: number
+          sort_order?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ticket_tiers_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      venue_zones: {
+        Row: {
+          description: string
+          event_id: string
+          id: string
+          name: string
+          sort_order: number
+          tier_name: string | null
+        }
+        Insert: {
+          description?: string
+          event_id: string
+          id?: string
+          name: string
+          sort_order?: number
+          tier_name?: string | null
+        }
+        Update: {
+          description?: string
+          event_id?: string
+          id?: string
+          name?: string
+          sort_order?: number
+          tier_name?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "venue_zones_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
