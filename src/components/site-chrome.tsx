@@ -1,25 +1,43 @@
 import { Link } from "@tanstack/react-router";
 
+const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+const MONTHS = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
+// Lagos is UTC+1 year-round; shift manually so server and browser agree exactly.
+function lagosDate(iso: string) {
+  return new Date(new Date(iso).getTime() + 60 * 60 * 1000);
+}
+
 export function formatNaira(kobo: number) {
-  return `₦${(kobo / 100).toLocaleString("en-NG")}`;
+  const naira = Math.round(kobo / 100);
+  const grouped = String(naira).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return `₦${grouped}`;
 }
 
 export function formatEventDate(iso: string) {
-  return new Date(iso).toLocaleDateString("en-NG", {
-    weekday: "short",
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-    timeZone: "Africa/Lagos",
-  });
+  const d = lagosDate(iso);
+  return `${WEEKDAYS[d.getUTCDay()]}, ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]} ${d.getUTCFullYear()}`;
 }
 
 export function formatEventTime(iso: string) {
-  return new Date(iso).toLocaleTimeString("en-NG", {
-    hour: "numeric",
-    minute: "2-digit",
-    timeZone: "Africa/Lagos",
-  });
+  const d = lagosDate(iso);
+  const hours24 = d.getUTCHours();
+  const hour12 = hours24 % 12 === 0 ? 12 : hours24 % 12;
+  const minutes = String(d.getUTCMinutes()).padStart(2, "0");
+  return `${hour12}:${minutes} ${hours24 < 12 ? "AM" : "PM"}`;
 }
 
 export function Logo() {
