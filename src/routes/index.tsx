@@ -88,36 +88,30 @@ function Home() {
       {event ? (
         <section className="mx-auto max-w-6xl px-5 py-20">
           <p className="eyebrow">The next Litville night</p>
-          <div className="mt-6 grid gap-10 lg:grid-cols-[0.8fr_1fr] lg:items-center">
+          <div className="mt-6 grid gap-10 lg:grid-cols-[0.8fr_1fr] lg:items-start">
             <img
               src={eventPoster}
-              alt={`${event.headliner} performing at ${event.title}`}
+              alt={`${event.title} event flier`}
               loading="lazy"
-              width={1024}
-              height={1280}
-              className="w-full rounded-lg border border-border object-cover shadow-heat"
+              width={1170}
+              height={1560}
+              className="w-full rounded-lg border border-border object-contain shadow-heat"
             />
             <div>
-              <h2 className="text-4xl sm:text-5xl">{event.title}</h2>
+              <p className="eyebrow">
+                {formatEventDate(event.starts_at).toUpperCase().replace(", ", ",")} · {event.venue},{" "}
+                {event.city}
+              </p>
+              <h2 className="mt-4 text-4xl sm:text-5xl">{event.title}</h2>
               <p className="mt-4 text-sm uppercase tracking-[0.18em] text-primary">
                 {event.headliner}
                 {event.supporting_acts ? ` · ${event.supporting_acts}` : ""}
               </p>
               <dl className="mt-7 grid gap-5 sm:grid-cols-2">
                 <div>
-                  <dt className="eyebrow">Date</dt>
-                  <dd className="mt-1 text-sm">{formatEventDate(event.starts_at)}</dd>
-                </div>
-                <div>
                   <dt className="eyebrow">Doors / stage</dt>
                   <dd className="mt-1 text-sm">
                     {event.doors_open ?? "—"} · on stage {formatEventTime(event.starts_at)}
-                  </dd>
-                </div>
-                <div>
-                  <dt className="eyebrow">Venue</dt>
-                  <dd className="mt-1 text-sm">
-                    {event.venue}, {event.city}
                   </dd>
                 </div>
                 <div>
@@ -126,6 +120,17 @@ function Home() {
                 </div>
               </dl>
               <p className="mt-6 text-sm leading-relaxed text-muted-foreground">{event.description}</p>
+              <ul className="mt-7 space-y-2">
+                {event.tiers.map((t) => (
+                  <li
+                    key={t.id}
+                    className="flex items-center justify-between gap-4 rounded-lg border border-border bg-card px-4 py-3 text-sm"
+                  >
+                    <span className="uppercase tracking-[0.14em]">{t.name}</span>
+                    <span className="text-primary">{formatNaira(Number(t.price_kobo))}</span>
+                  </li>
+                ))}
+              </ul>
               <Link
                 to="/event/$slug"
                 params={{ slug: event.slug }}
@@ -136,6 +141,7 @@ function Home() {
             </div>
           </div>
         </section>
+
       ) : null}
 
       <section className="border-y border-border bg-surface/40">
