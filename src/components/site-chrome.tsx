@@ -103,7 +103,7 @@ export function SiteFooter() {
         <div className="space-y-2 text-sm text-muted-foreground">
           <p className="eyebrow">Litville</p>
           <p>Lagos, Nigeria</p>
-          <p>hello@litville.ng</p>
+          <p>housevybes@gmail.com</p>
           <p className="pt-3 text-xs">Payments secured by Paystack.</p>
         </div>
       </div>
