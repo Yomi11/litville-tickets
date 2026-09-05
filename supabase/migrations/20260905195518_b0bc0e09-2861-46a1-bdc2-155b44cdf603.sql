@@ -1,0 +1,1 @@
+UPDATE public.events SET description = 'A curated midweek recharge experience built around DJ sets, artist spotlights, dance, games, entertainment and pop-up activations to a loyal, recurring community rather than a one-off event.' WHERE slug = 'litville-live-lagos-nights';
