@@ -24,7 +24,7 @@ export const Route = createFileRoute("/event/$slug")({
       };
     }
     const title = `${loaderData.title} — tickets | Litville`;
-    const description = `Buy venue tickets for ${loaderData.title} at ${loaderData.venue}, ${loaderData.city}. Pick your zone, split the cost and pay securely with Paystack.`;
+    const description = `Buy venue tickets for ${loaderData.title} at ${loaderData.venue}, ${loaderData.city}. Pick your zone and pay securely with Paystack.`;
     return {
       meta: [
         { title },
@@ -45,7 +45,7 @@ function EventPage() {
   const [tierId, setTierId] = useState(event?.tiers[0]?.id ?? "");
   const [zoneName, setZoneName] = useState<string | null>(null);
   const [quantity, setQuantity] = useState(1);
-  const [splitCount, setSplitCount] = useState(1);
+  
   const [buyerName, setBuyerName] = useState("");
   const [buyerEmail, setBuyerEmail] = useState("");
   const [buyerPhone, setBuyerPhone] = useState("");
@@ -77,7 +77,7 @@ function EventPage() {
           tierId: tier!.id,
           zoneName,
           quantity,
-          splitCount,
+          splitCount: 1,
           buyerName,
           buyerEmail,
           buyerPhone,
@@ -197,35 +197,19 @@ function EventPage() {
             </div>
           ) : null}
 
-          <div className="mt-5 grid grid-cols-2 gap-3">
-            <div>
-              <label className="eyebrow" htmlFor="qty">
-                Tickets
-              </label>
-              <input
-                id="qty"
-                type="number"
-                min={1}
-                max={Math.min(10, Math.max(1, remaining))}
-                value={quantity}
-                onChange={(e) => setQuantity(Number(e.target.value))}
-                className="field mt-2"
-              />
-            </div>
-            <div>
-              <label className="eyebrow" htmlFor="split">
-                Splitting between
-              </label>
-              <input
-                id="split"
-                type="number"
-                min={1}
-                max={10}
-                value={splitCount}
-                onChange={(e) => setSplitCount(Number(e.target.value))}
-                className="field mt-2"
-              />
-            </div>
+          <div className="mt-5">
+            <label className="eyebrow" htmlFor="qty">
+              Tickets
+            </label>
+            <input
+              id="qty"
+              type="number"
+              min={1}
+              max={Math.min(10, Math.max(1, remaining))}
+              value={quantity}
+              onChange={(e) => setQuantity(Number(e.target.value))}
+              className="field mt-2"
+            />
           </div>
 
           <div className="mt-5 space-y-3">
@@ -275,12 +259,6 @@ function EventPage() {
               <span className="text-muted-foreground">Total</span>
               <span className="text-lg font-bold text-primary">{formatNaira(total)}</span>
             </div>
-            {splitCount > 1 ? (
-              <div className="mt-2 flex justify-between text-xs text-muted-foreground">
-                <span>Each of {splitCount} people</span>
-                <span>{formatNaira(Math.ceil(total / splitCount))}</span>
-              </div>
-            ) : null}
           </div>
 
           {error ? <p className="mt-4 text-sm text-destructive">{error}</p> : null}
