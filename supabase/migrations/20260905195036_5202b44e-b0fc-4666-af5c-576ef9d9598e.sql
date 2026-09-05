@@ -1,0 +1,1 @@
+UPDATE public.events SET title = 'VYBES HOUSE: WOW-WEDNESDAYS' WHERE slug = 'litville-live-lagos-nights';
