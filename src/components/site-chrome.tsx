@@ -33,7 +33,7 @@ export function Logo() {
 
 const nav = [
   { to: "/", label: "Home" },
-  { to: "/event/litville-live-lagos-nights", label: "Tickets" },
+  { to: "/event/$slug", params: { slug: "litville-live-lagos-nights" }, label: "Tickets" },
   { to: "/charts", label: "Charts" },
   { to: "/community", label: "Community" },
   { to: "/organisers", label: "Organisers" },
@@ -49,6 +49,7 @@ export function SiteHeader() {
             <Link
               key={item.to}
               to={item.to}
+              {...("params" in item ? { params: item.params } : {})}
               activeProps={{ className: "text-foreground" }}
               className="transition-colors hover:text-foreground"
             >
@@ -56,7 +57,7 @@ export function SiteHeader() {
             </Link>
           ))}
         </nav>
-        <Link to="/event/litville-live-lagos-nights" className="btn-heat !px-4 !py-2.5">
+        <Link to="/event/$slug" params={{ slug: "litville-live-lagos-nights" }} className="btn-heat !px-4 !py-2.5">
           Buy tickets
         </Link>
       </div>
@@ -77,7 +78,7 @@ export function SiteFooter() {
         </div>
         <div className="space-y-2 text-sm">
           <p className="eyebrow">Fans</p>
-          <Link to="/event/litville-live-lagos-nights" className="block text-muted-foreground hover:text-foreground">
+          <Link to="/event/$slug" params={{ slug: "litville-live-lagos-nights" }} className="block text-muted-foreground hover:text-foreground">
             Upcoming shows
           </Link>
           <Link to="/charts" className="block text-muted-foreground hover:text-foreground">
