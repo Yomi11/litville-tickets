@@ -72,9 +72,6 @@ function TicketPage() {
                   <dt className="eyebrow">Paid</dt>
                   <dd className="mt-1">
                     {formatNaira(data.amountKobo)}
-                    {data.splitCount > 1
-                      ? ` · ${formatNaira(Math.ceil(data.amountKobo / data.splitCount))} each across ${data.splitCount}`
-                      : ""}
                   </dd>
                 </div>
                 <div>

@@ -68,7 +68,7 @@ function Home() {
           </h1>
           <p className="mt-6 max-w-xl text-base text-muted-foreground sm:text-lg">
             Litville produces its own live music nights and sells the tickets directly — clear pricing,
-            a zone you actually choose, split payments with your people, and a QR ticket in seconds.
+            a zone you actually choose, and a QR ticket in seconds.
           </p>
           <div className="mt-9 flex flex-wrap gap-3">
             {event ? (
@@ -144,8 +144,8 @@ function Home() {
               body: "Zones are mapped before you pay — barricade, mid-floor, raised deck or a table. No mystery seating.",
             },
             {
-              title: "Split the cost",
-              body: "Buying for the group? Set how many people are splitting and Litville shows each person's share.",
+              title: "Pay in seconds",
+              body: "Card, bank transfer or USSD through Paystack, with your QR ticket issued the moment payment lands.",
             },
             {
               title: "Rate what you saw",
