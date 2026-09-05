@@ -3,7 +3,9 @@ import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { getFeaturedEvent, listReviews } from "@/lib/litville.functions";
 import { formatEventDate, formatEventTime, formatNaira } from "@/components/site-chrome";
 import heroCrowd from "@/assets/hero-crowd.jpg";
-import eventPoster from "@/assets/event-poster.jpg";
+import eventPosterAsset from "@/assets/wow-wednesdays.png.asset.json";
+
+const eventPoster = eventPosterAsset.url;
 
 const featuredQuery = queryOptions({
   queryKey: ["featured-event"],
