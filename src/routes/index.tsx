@@ -99,8 +99,7 @@ function Home() {
             />
             <div>
               <p className="eyebrow">
-                {formatEventDate(event.starts_at).toUpperCase().replace(", ", ",")} · {event.venue},{" "}
-                {event.city}
+                WED, 30 SEPTEMBER 2026 · LANDMARK VILLAGE, VI LAGOS
               </p>
               <h2 className="mt-4 text-4xl sm:text-5xl">{event.title}</h2>
               <p className="mt-4 text-sm uppercase tracking-[0.18em] text-primary">
@@ -110,13 +109,11 @@ function Home() {
               <dl className="mt-7 grid gap-5 sm:grid-cols-2">
                 <div>
                   <dt className="eyebrow">Doors / stage</dt>
-                  <dd className="mt-1 text-sm">
-                    {event.doors_open ?? "—"} · on stage {formatEventTime(event.starts_at)}
-                  </dd>
+                  <dd className="mt-1 text-sm">9:00 PM · on stage 10:00 PM</dd>
                 </div>
                 <div>
-                  <dt className="eyebrow">Capacity</dt>
-                  <dd className="mt-1 text-sm">{event.capacity} guests</dd>
+                  <dt className="eyebrow">VENUE PARTNER</dt>
+                  <dd className="mt-1 text-sm">C8 (CURATE)</dd>
                 </div>
               </dl>
               <p className="mt-6 text-sm leading-relaxed text-muted-foreground">{event.description}</p>
