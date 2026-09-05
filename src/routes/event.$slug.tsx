@@ -268,9 +268,6 @@ function EventPage() {
           <button type="submit" className="btn-heat mt-6 w-full" disabled={submitting || remaining <= 0}>
             {submitting ? "Redirecting to Paystack…" : "Pay with Paystack"}
           </button>
-          <p className="mt-3 text-center text-xs text-muted-foreground">
-            Card, bank transfer or USSD. Your QR ticket appears right after payment.
-          </p>
         </form>
       </div>
     </div>
