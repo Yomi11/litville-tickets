@@ -107,7 +107,7 @@ function EventPage() {
       <div className="grid gap-10 lg:grid-cols-[1fr_0.85fr]">
         <div>
           <p className="eyebrow">
-            {formatEventDate(event.starts_at)} · {event.venue}, {event.city}
+             {formatEventDate(event.starts_at).toUpperCase().replace(", ", ",")} · {event.venue}, {event.city}
           </p>
           <h1 className="mt-4 text-5xl sm:text-6xl">{event.title}</h1>
           <p className="mt-4 text-sm uppercase tracking-[0.18em] text-primary">
