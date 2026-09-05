@@ -3,7 +3,9 @@ import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
 import { getEventBySlug, startCheckout } from "@/lib/litville.functions";
 import { formatEventDate, formatEventTime, formatNaira } from "@/components/site-chrome";
-import eventPoster from "@/assets/event-poster.jpg";
+import eventPosterAsset from "@/assets/wow-wednesdays.png.asset.json";
+
+const eventPoster = eventPosterAsset.url;
 
 const eventQuery = (slug: string) =>
   queryOptions({
@@ -114,11 +116,11 @@ function EventPage() {
           </p>
           <img
             src={eventPoster}
-            alt={`${event.headliner} on stage`}
+            alt={`${event.title} event poster`}
             loading="lazy"
-            width={1024}
-            height={1280}
-            className="mt-8 aspect-[4/3] w-full rounded-lg border border-border object-cover"
+            width={1170}
+            height={1560}
+            className="mt-8 w-full rounded-lg border border-border object-contain"
           />
           <p className="mt-7 text-sm leading-relaxed text-muted-foreground">{event.description}</p>
 
