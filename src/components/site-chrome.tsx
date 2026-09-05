@@ -49,7 +49,7 @@ export function SiteHeader() {
             <Link
               key={item.to}
               to={item.to}
-              params={"params" in item ? item.params : undefined}
+              {...("params" in item ? { params: item.params } : {})}
               activeProps={{ className: "text-foreground" }}
               className="transition-colors hover:text-foreground"
             >
