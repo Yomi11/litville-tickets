@@ -5,4 +5,7 @@
 
 ## Pending
 - Connect app to user's own Supabase database
-- Enable/configure Supabase for project
+
+## Done
+- Enable/configure Supabase for project (Lovable Cloud active)
+- Connect project to GitHub
