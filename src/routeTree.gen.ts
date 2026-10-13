@@ -16,6 +16,7 @@ import { Route as LivestreamRouteImport } from './routes/livestream'
 import { Route as OrganisersRouteImport } from './routes/organisers'
 import { Route as EventSlugRouteImport } from './routes/event.$slug'
 import { Route as TicketReferenceRouteImport } from './routes/ticket.$reference'
+import { Route as ApiWebhooksPaystackRouteImport } from './routes/api.webhooks.paystack'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -52,6 +53,11 @@ const TicketReferenceRoute = TicketReferenceRouteImport.update({
   path: '/ticket/$reference',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiWebhooksPaystackRoute = ApiWebhooksPaystackRouteImport.update({
+  id: '/api/webhooks/paystack',
+  path: '/api/webhooks/paystack',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -61,6 +67,7 @@ export interface FileRoutesByFullPath {
   '/organisers': typeof OrganisersRoute
   '/event/$slug': typeof EventSlugRoute
   '/ticket/$reference': typeof TicketReferenceRoute
+  '/api/webhooks/paystack': typeof ApiWebhooksPaystackRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -70,6 +77,7 @@ export interface FileRoutesByTo {
   '/organisers': typeof OrganisersRoute
   '/event/$slug': typeof EventSlugRoute
   '/ticket/$reference': typeof TicketReferenceRoute
+  '/api/webhooks/paystack': typeof ApiWebhooksPaystackRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -80,6 +88,7 @@ export interface FileRoutesById {
   '/organisers': typeof OrganisersRoute
   '/event/$slug': typeof EventSlugRoute
   '/ticket/$reference': typeof TicketReferenceRoute
+  '/api/webhooks/paystack': typeof ApiWebhooksPaystackRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -91,6 +100,7 @@ export interface FileRouteTypes {
     | '/organisers'
     | '/event/$slug'
     | '/ticket/$reference'
+    | '/api/webhooks/paystack'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -100,6 +110,7 @@ export interface FileRouteTypes {
     | '/organisers'
     | '/event/$slug'
     | '/ticket/$reference'
+    | '/api/webhooks/paystack'
   id:
     | '__root__'
     | '/'
@@ -109,6 +120,7 @@ export interface FileRouteTypes {
     | '/organisers'
     | '/event/$slug'
     | '/ticket/$reference'
+    | '/api/webhooks/paystack'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -119,6 +131,7 @@ export interface RootRouteChildren {
   OrganisersRoute: typeof OrganisersRoute
   EventSlugRoute: typeof EventSlugRoute
   TicketReferenceRoute: typeof TicketReferenceRoute
+  ApiWebhooksPaystackRoute: typeof ApiWebhooksPaystackRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -172,6 +185,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TicketReferenceRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/webhooks/paystack': {
+      id: '/api/webhooks/paystack'
+      path: '/api/webhooks/paystack'
+      fullPath: '/api/webhooks/paystack'
+      preLoaderRoute: typeof ApiWebhooksPaystackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -183,6 +203,7 @@ const rootRouteChildren: RootRouteChildren = {
   OrganisersRoute: OrganisersRoute,
   EventSlugRoute: EventSlugRoute,
   TicketReferenceRoute: TicketReferenceRoute,
+  ApiWebhooksPaystackRoute: ApiWebhooksPaystackRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
