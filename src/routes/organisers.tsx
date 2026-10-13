@@ -63,11 +63,11 @@ function Organisers() {
       <div className="mt-12 rounded-lg border border-border bg-surface/50 p-8">
         <h2 className="text-2xl">Ready to ticket your next event?</h2>
         <p className="mt-3 max-w-xl text-sm text-muted-foreground">
-          Email the team with your date, venue and expected capacity and we'll come back with terms.
+          Email abiolakolade27@gmail.com with your date, venue and expected capacity and we'll come back with terms.
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
-          <a href="mailto:promoters@litville.ng" className="btn-heat">
-            Email promoters@litville.ng
+          <a href="mailto:abiolakolade27@gmail.com" className="btn-heat">
+            Email our partnerships team
           </a>
           <Link to="/events" className="btn-ghost-line">
             See our events

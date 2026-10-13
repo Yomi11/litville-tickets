@@ -128,7 +128,9 @@ export function SiteFooter() {
         <div className="space-y-2 text-sm text-muted-foreground">
           <p className="eyebrow">Litville</p>
           <p>Lagos, Nigeria</p>
-          <p>housevybes@gmail.com</p>
+          <a href="mailto:support.creativeagent@gmail.com" className="block hover:text-foreground">
+            support.creativeagent@gmail.com
+          </a>
           <p className="pt-3 text-xs">Payments secured by Paystack.</p>
         </div>
       </div>
