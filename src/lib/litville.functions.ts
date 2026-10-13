@@ -331,11 +331,13 @@ export const confirmTicket = createServerFn({ method: "POST" })
           const paystackStatus = json.data?.status;
           if (json.status && paystackStatus === "success") {
             ticketCode = `LV${data.reference.replace(/[^A-Z0-9]/g, "").slice(-8)}`;
-            await supabaseAdmin
+            const { data: updated } = await supabaseAdmin
               .from("orders")
               .update({ status: "paid", ticket_code: ticketCode, paid_at: new Date().toISOString() })
-              .eq("id", order.id);
-            if (tier) {
+              .eq("id", order.id)
+              .neq("status", "paid")
+              .select("id");
+            if (tier && updated && updated.length > 0) {
               await supabaseAdmin
                 .from("ticket_tiers")
                 .update({ sold: tier.sold + order.quantity })

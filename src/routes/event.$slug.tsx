@@ -3,9 +3,7 @@ import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
 import { getEventBySlug, startCheckout } from "@/lib/litville.functions";
 import { formatEventDate, formatEventTime, formatNaira } from "@/components/site-chrome";
-import eventPosterAsset from "@/assets/wow-wednesdays.png.asset.json";
-
-const eventPoster = eventPosterAsset.url;
+import eventPoster from "@/assets/wow-wednesdays.png";
 
 const eventQuery = (slug: string) =>
   queryOptions({
