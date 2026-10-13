@@ -70,11 +70,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Litville — Live music tickets in Lagos" },
+      { title: "Litville — The home of live experiences in Lagos" },
       {
         name: "description",
         content:
-          "Litville sells tickets to the live music shows it hosts, and gives Afrobeats fans a place to rate shows and follow the charts.",
+          "Tickets to comedy specials, concerts and curated nights out in Lagos. Pay securely with Paystack and get your QR ticket in seconds.",
       },
       { name: "author", content: "Litville" },
       { property: "og:type", content: "website" },

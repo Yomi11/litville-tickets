@@ -1,9 +1,13 @@
-import { createFileRoute, notFound, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound, useNavigate } from "@tanstack/react-router";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
 import { getEventBySlug, startCheckout } from "@/lib/litville.functions";
-import { formatEventDate, formatEventTime, formatNaira } from "@/components/site-chrome";
-import eventPoster from "@/assets/wow-wednesdays.png";
+import {
+  formatEventDate,
+  formatEventTime,
+  formatNaira,
+  isPastEvent,
+} from "@/components/site-chrome";
 
 const eventQuery = (slug: string) =>
   queryOptions({
@@ -15,7 +19,13 @@ export const Route = createFileRoute("/event/$slug")({
   loader: async ({ context, params }) => {
     const event = await context.queryClient.ensureQueryData(eventQuery(params.slug));
     if (!event) throw notFound();
-    return { title: event.title, venue: event.venue, city: event.city };
+    return {
+      title: event.title,
+      venue: event.venue,
+      city: event.city,
+      poster: event.poster_url,
+      past: isPastEvent(event.starts_at),
+    };
   },
   head: ({ loaderData }) => {
     if (!loaderData) {
@@ -23,14 +33,19 @@ export const Route = createFileRoute("/event/$slug")({
         meta: [{ title: "Event unavailable — Litville" }, { name: "robots", content: "noindex" }],
       };
     }
-    const title = `${loaderData.title} — tickets | Litville`;
-    const description = `Buy venue tickets for ${loaderData.title} at ${loaderData.venue}, ${loaderData.city}. Pick your zone and pay securely with Paystack.`;
+    const title = loaderData.past
+      ? `${loaderData.title} | Litville`
+      : `${loaderData.title} — tickets | Litville`;
+    const description = loaderData.past
+      ? `${loaderData.title} at ${loaderData.venue}, ${loaderData.city}. A past Litville event.`
+      : `Get tickets for ${loaderData.title} at ${loaderData.venue}, ${loaderData.city}. Choose your tier and pay securely with Paystack.`;
     return {
       meta: [
         { title },
         { name: "description", content: description },
         { property: "og:title", content: title },
         { property: "og:description", content: description },
+        ...(loaderData.poster ? [{ property: "og:image", content: loaderData.poster }] : []),
       ],
     };
   },
@@ -63,6 +78,7 @@ function EventPage() {
 
   if (!event || !tier) return null;
 
+  const past = isPastEvent(event.starts_at);
   const total = Number(tier.price_kobo) * quantity;
   const remaining = tier.quantity - tier.sold;
 
@@ -105,24 +121,33 @@ function EventPage() {
       <div className="grid gap-10 lg:grid-cols-[1fr_0.85fr]">
         <div>
           <p className="eyebrow">
-             {formatEventDate(event.starts_at).toUpperCase().replace(", ", ",")} · {event.venue}, {event.city}
+            {past ? "Past event · " : ""}
+            {formatEventDate(event.starts_at)} · {formatEventTime(event.starts_at)} · {event.venue},{" "}
+            {event.city}
           </p>
           <h1 className="mt-4 text-5xl sm:text-6xl">{event.title}</h1>
           <p className="mt-4 text-sm uppercase tracking-[0.18em] text-primary">
             {event.headliner}
             {event.supporting_acts ? ` · ${event.supporting_acts}` : ""}
           </p>
-          <img
-            src={eventPoster}
-            alt={`${event.title} event poster`}
-            loading="lazy"
-            width={1170}
-            height={1560}
-            className="mt-8 w-full rounded-lg border border-border object-contain"
-          />
-          <p className="mt-7 text-sm leading-relaxed text-muted-foreground">{event.description}</p>
+          {event.poster_url ? (
+            <img
+              src={event.poster_url}
+              alt={`${event.title} poster`}
+              className="mt-8 w-full rounded-lg border border-border object-contain"
+            />
+          ) : null}
+          {event.doors_open ? (
+            <p className="mt-7 text-sm">
+              <span className="eyebrow mr-2">Arrival</span>
+              {event.doors_open}
+            </p>
+          ) : null}
+          <p className="mt-4 whitespace-pre-line text-sm leading-relaxed text-muted-foreground">
+            {event.description}
+          </p>
 
-          <h2 className="mt-12 text-2xl">Ticket tiers</h2>
+          <h2 className="mt-12 text-2xl">{past ? "Tickets" : "Choose your tickets"}</h2>
           <div className="mt-4 space-y-3">
             {event.tiers.map((t) => {
               const selected = t.id === tier.id;
@@ -135,7 +160,7 @@ function EventPage() {
                     setTierId(t.id);
                     setZoneName(null);
                   }}
-                  disabled={left <= 0}
+                  disabled={past || left <= 0}
                   className={`w-full rounded-lg border p-5 text-left transition-colors ${
                     selected ? "border-primary bg-card" : "border-border bg-card/40 hover:border-primary/60"
                   } disabled:opacity-40`}
@@ -158,7 +183,7 @@ function EventPage() {
                     ))}
                   </ul>
                   <p className="mt-3 text-xs text-muted-foreground">
-                    {left > 0 ? `${left} left` : "Sold out"}
+                    {past ? "Sales closed" : left > 0 ? `${left} left` : "Sold out"}
                   </p>
                 </button>
               );
@@ -166,6 +191,24 @@ function EventPage() {
           </div>
         </div>
 
+        {past ? (
+          <div className="h-fit rounded-lg border border-border bg-card p-6 lg:sticky lg:top-24">
+            <p className="eyebrow">This event has ended</p>
+            <h2 className="mt-2 text-2xl">Thanks to everyone who came out</h2>
+            <p className="mt-3 text-sm text-muted-foreground">
+              Ticket sales for this event are closed. Were you there? Tell us how it went, or see what's
+              coming up next.
+            </p>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <Link to="/events" className="btn-heat">
+                Upcoming events
+              </Link>
+              <Link to="/community" className="btn-ghost-line">
+                Leave a review
+              </Link>
+            </div>
+          </div>
+        ) : (
         <form
           onSubmit={handleCheckout}
           className="h-fit rounded-lg border border-border bg-card p-6 lg:sticky lg:top-24"
@@ -267,6 +310,7 @@ function EventPage() {
             {submitting ? "Redirecting to Paystack…" : "Pay with Paystack"}
           </button>
         </form>
+        )}
       </div>
     </div>
   );

@@ -12,7 +12,8 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ChartsRouteImport } from './routes/charts'
 import { Route as CommunityRouteImport } from './routes/community'
-import { Route as LivestreamRouteImport } from './routes/livestream'
+import { Route as EventsRouteImport } from './routes/events'
+import { Route as MimickoliveRouteImport } from './routes/mimickolive'
 import { Route as OrganisersRouteImport } from './routes/organisers'
 import { Route as EventSlugRouteImport } from './routes/event.$slug'
 import { Route as TicketReferenceRouteImport } from './routes/ticket.$reference'
@@ -33,9 +34,14 @@ const CommunityRoute = CommunityRouteImport.update({
   path: '/community',
   getParentRoute: () => rootRouteImport,
 } as any)
-const LivestreamRoute = LivestreamRouteImport.update({
-  id: '/livestream',
-  path: '/livestream',
+const EventsRoute = EventsRouteImport.update({
+  id: '/events',
+  path: '/events',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MimickoliveRoute = MimickoliveRouteImport.update({
+  id: '/mimickolive',
+  path: '/mimickolive',
   getParentRoute: () => rootRouteImport,
 } as any)
 const OrganisersRoute = OrganisersRouteImport.update({
@@ -63,7 +69,8 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/charts': typeof ChartsRoute
   '/community': typeof CommunityRoute
-  '/livestream': typeof LivestreamRoute
+  '/events': typeof EventsRoute
+  '/mimickolive': typeof MimickoliveRoute
   '/organisers': typeof OrganisersRoute
   '/event/$slug': typeof EventSlugRoute
   '/ticket/$reference': typeof TicketReferenceRoute
@@ -73,7 +80,8 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/charts': typeof ChartsRoute
   '/community': typeof CommunityRoute
-  '/livestream': typeof LivestreamRoute
+  '/events': typeof EventsRoute
+  '/mimickolive': typeof MimickoliveRoute
   '/organisers': typeof OrganisersRoute
   '/event/$slug': typeof EventSlugRoute
   '/ticket/$reference': typeof TicketReferenceRoute
@@ -84,7 +92,8 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/charts': typeof ChartsRoute
   '/community': typeof CommunityRoute
-  '/livestream': typeof LivestreamRoute
+  '/events': typeof EventsRoute
+  '/mimickolive': typeof MimickoliveRoute
   '/organisers': typeof OrganisersRoute
   '/event/$slug': typeof EventSlugRoute
   '/ticket/$reference': typeof TicketReferenceRoute
@@ -96,7 +105,8 @@ export interface FileRouteTypes {
     | '/'
     | '/charts'
     | '/community'
-    | '/livestream'
+    | '/events'
+    | '/mimickolive'
     | '/organisers'
     | '/event/$slug'
     | '/ticket/$reference'
@@ -106,7 +116,8 @@ export interface FileRouteTypes {
     | '/'
     | '/charts'
     | '/community'
-    | '/livestream'
+    | '/events'
+    | '/mimickolive'
     | '/organisers'
     | '/event/$slug'
     | '/ticket/$reference'
@@ -116,7 +127,8 @@ export interface FileRouteTypes {
     | '/'
     | '/charts'
     | '/community'
-    | '/livestream'
+    | '/events'
+    | '/mimickolive'
     | '/organisers'
     | '/event/$slug'
     | '/ticket/$reference'
@@ -127,7 +139,8 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ChartsRoute: typeof ChartsRoute
   CommunityRoute: typeof CommunityRoute
-  LivestreamRoute: typeof LivestreamRoute
+  EventsRoute: typeof EventsRoute
+  MimickoliveRoute: typeof MimickoliveRoute
   OrganisersRoute: typeof OrganisersRoute
   EventSlugRoute: typeof EventSlugRoute
   TicketReferenceRoute: typeof TicketReferenceRoute
@@ -157,11 +170,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CommunityRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/livestream': {
-      id: '/livestream'
-      path: '/livestream'
-      fullPath: '/livestream'
-      preLoaderRoute: typeof LivestreamRouteImport
+    '/events': {
+      id: '/events'
+      path: '/events'
+      fullPath: '/events'
+      preLoaderRoute: typeof EventsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mimickolive': {
+      id: '/mimickolive'
+      path: '/mimickolive'
+      fullPath: '/mimickolive'
+      preLoaderRoute: typeof MimickoliveRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/organisers': {
@@ -199,7 +219,8 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ChartsRoute: ChartsRoute,
   CommunityRoute: CommunityRoute,
-  LivestreamRoute: LivestreamRoute,
+  EventsRoute: EventsRoute,
+  MimickoliveRoute: MimickoliveRoute,
   OrganisersRoute: OrganisersRoute,
   EventSlugRoute: EventSlugRoute,
   TicketReferenceRoute: TicketReferenceRoute,

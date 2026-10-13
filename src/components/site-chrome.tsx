@@ -21,6 +21,14 @@ function lagosDate(iso: string) {
   return new Date(new Date(iso).getTime() + 60 * 60 * 1000);
 }
 
+// An event counts as "past" once this many hours have gone by since it started,
+// so tickets stay on sale through the night of the show.
+export const PAST_AFTER_HOURS = 6;
+
+export function isPastEvent(startsAt: string) {
+  return new Date(startsAt).getTime() < Date.now() - PAST_AFTER_HOURS * 60 * 60 * 1000;
+}
+
 export function formatNaira(kobo: number) {
   const naira = Math.round(kobo / 100);
   const grouped = String(naira).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -51,10 +59,10 @@ export function Logo() {
 
 const nav = [
   { to: "/", label: "Home" },
-  { to: "/event/$slug", params: { slug: "litville-live-lagos-nights" }, label: "Tickets" },
+  { to: "/events", label: "Events" },
+  { to: "/community", label: "Reviews" },
   { to: "/charts", label: "Charts" },
-  { to: "/community", label: "Community" },
-  { to: "/organisers", label: "Organisers" },
+  { to: "/organisers", label: "Host with us" },
 ] as const;
 
 export function SiteHeader() {
@@ -67,7 +75,6 @@ export function SiteHeader() {
             <Link
               key={item.to}
               to={item.to}
-              {...("params" in item ? { params: item.params } : {})}
               activeProps={{ className: "text-foreground" }}
               className="transition-colors hover:text-foreground"
             >
@@ -75,8 +82,8 @@ export function SiteHeader() {
             </Link>
           ))}
         </nav>
-        <Link to="/event/$slug" params={{ slug: "litville-live-lagos-nights" }} className="btn-heat !px-4 !py-2.5">
-          Buy tickets
+        <Link to="/events" className="btn-heat !px-4 !py-2.5">
+          Get tickets
         </Link>
       </div>
     </header>
@@ -90,14 +97,17 @@ export function SiteFooter() {
         <div className="space-y-3">
           <Logo />
           <p className="text-sm text-muted-foreground">
-            Africa-owned infrastructure for live music. Venue tickets today, livestream and broadcast
-            next.
+            The home of live experiences in Lagos — comedy, concerts and nights worth leaving the
+            house for.
           </p>
         </div>
         <div className="space-y-2 text-sm">
-          <p className="eyebrow">Fans</p>
-          <Link to="/event/$slug" params={{ slug: "litville-live-lagos-nights" }} className="block text-muted-foreground hover:text-foreground">
-            Upcoming shows
+          <p className="eyebrow">Explore</p>
+          <Link to="/events" className="block text-muted-foreground hover:text-foreground">
+            Upcoming events
+          </Link>
+          <Link to="/events" hash="past" className="block text-muted-foreground hover:text-foreground">
+            Past events
           </Link>
           <Link to="/charts" className="block text-muted-foreground hover:text-foreground">
             Music charts
@@ -107,15 +117,12 @@ export function SiteFooter() {
           </Link>
         </div>
         <div className="space-y-2 text-sm">
-          <p className="eyebrow">Industry</p>
+          <p className="eyebrow">Partners</p>
           <Link to="/organisers" className="block text-muted-foreground hover:text-foreground">
             Promoters &amp; organisers
           </Link>
           <Link to="/organisers" className="block text-muted-foreground hover:text-foreground">
-            Artists
-          </Link>
-          <Link to="/livestream" className="block text-muted-foreground hover:text-foreground">
-            Livestream (coming soon)
+            Venues &amp; performers
           </Link>
         </div>
         <div className="space-y-2 text-sm text-muted-foreground">

@@ -85,7 +85,7 @@ function Charts() {
         ))}
       </div>
       <p className="mt-8 text-xs text-muted-foreground">
-        Snapshot curated by the Litville team. Live chart API feeds land alongside artist profiles.
+        Snapshot curated weekly by the Litville team.
       </p>
     </div>
   );

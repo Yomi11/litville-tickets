@@ -115,8 +115,8 @@ function TicketPage() {
             <button className="btn-heat" onClick={() => refetch()} disabled={isFetching}>
               {isFetching ? "Checking…" : "Check again"}
             </button>
-            <Link to="/event/$slug" params={{ slug: "litville-live-lagos-nights" }} className="btn-ghost-line">
-              Back to the event
+            <Link to="/events" className="btn-ghost-line">
+              Back to events
             </Link>
           </div>
         </div>

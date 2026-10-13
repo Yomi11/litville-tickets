@@ -1,6 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { createClient } from "@supabase/supabase-js";
 import type { Database } from "@/integrations/supabase/types";
+import { isPastEvent, PAST_AFTER_HOURS } from "@/components/site-chrome";
 
 function publicClient() {
   const key = process.env["SUPABASE_PUBLISHABLE_KEY"]!;
@@ -30,6 +31,7 @@ export type EventDetail = {
   venue: string;
   city: string;
   description: string;
+  poster_url: string | null;
   capacity: number;
   tiers: {
     id: string;
@@ -43,15 +45,56 @@ export type EventDetail = {
   zones: { id: string; name: string; description: string; tier_name: string | null }[];
 };
 
+function pastCutoffIso() {
+  return new Date(Date.now() - PAST_AFTER_HOURS * 60 * 60 * 1000).toISOString();
+}
+
+export type EventSummary = {
+  id: string;
+  slug: string;
+  title: string;
+  headliner: string;
+  starts_at: string;
+  venue: string;
+  city: string;
+  poster_url: string | null;
+};
+
+const SUMMARY_COLUMNS = "id, slug, title, headliner, starts_at, venue, city, poster_url";
+
+export const listEvents = createServerFn({ method: "GET" }).handler(
+  async (): Promise<{ upcoming: EventSummary[]; past: EventSummary[] }> => {
+    const supabase = publicClient();
+    const cutoff = pastCutoffIso();
+    const [{ data: upcoming }, { data: past }] = await Promise.all([
+      supabase
+        .from("events")
+        .select(SUMMARY_COLUMNS)
+        .eq("status", "published")
+        .gte("starts_at", cutoff)
+        .order("starts_at", { ascending: true }),
+      supabase
+        .from("events")
+        .select(SUMMARY_COLUMNS)
+        .eq("status", "published")
+        .lt("starts_at", cutoff)
+        .order("starts_at", { ascending: false })
+        .limit(12),
+    ]);
+    return { upcoming: upcoming ?? [], past: past ?? [] };
+  },
+);
+
 export const getFeaturedEvent = createServerFn({ method: "GET" }).handler(
   async (): Promise<EventDetail | null> => {
     const supabase = publicClient();
     const { data: event } = await supabase
       .from("events")
       .select(
-        "id, slug, title, headliner, supporting_acts, starts_at, doors_open, venue, city, description, capacity",
+        "id, slug, title, headliner, supporting_acts, starts_at, doors_open, venue, city, description, poster_url, capacity",
       )
       .eq("status", "published")
+      .gte("starts_at", pastCutoffIso())
       .order("starts_at", { ascending: true })
       .limit(1)
       .maybeSingle();
@@ -67,7 +110,7 @@ export const getEventBySlug = createServerFn({ method: "GET" })
     const { data: event } = await supabase
       .from("events")
       .select(
-        "id, slug, title, headliner, supporting_acts, starts_at, doors_open, venue, city, description, capacity",
+        "id, slug, title, headliner, supporting_acts, starts_at, doors_open, venue, city, description, poster_url, capacity",
       )
       .eq("slug", data.slug)
       .maybeSingle();
@@ -171,7 +214,7 @@ export const startCheckout = createServerFn({ method: "POST" })
 
     const { data: event } = await supabaseAdmin
       .from("events")
-      .select("id, title")
+      .select("id, title, starts_at")
       .eq("slug", data.slug)
       .maybeSingle();
     const { data: tier } = await supabaseAdmin
@@ -182,6 +225,9 @@ export const startCheckout = createServerFn({ method: "POST" })
 
     if (!event || !tier || tier.event_id !== event.id) {
       return { ok: false as const, error: "That ticket is no longer available." };
+    }
+    if (isPastEvent(event.starts_at)) {
+      return { ok: false as const, error: "This event has ended, so tickets are no longer on sale." };
     }
     if (tier.sold + data.quantity > tier.quantity) {
       return { ok: false as const, error: `Only ${tier.quantity - tier.sold} ${tier.name} tickets left.` };

@@ -3,17 +3,17 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 export const Route = createFileRoute("/organisers")({
   head: () => ({
     meta: [
-      { title: "For promoters, venues and artists | Litville" },
+      { title: "Host with Litville — for promoters, venues and performers" },
       {
         name: "description",
         content:
-          "Sell tickets, track sales in real time, scan at the gate and get paid out after the show. Litville is building ticketing tools for Lagos promoters and artists.",
+          "Sell tickets, track sales in real time, check guests in at the door and get paid out after the show. Partner with Litville to ticket your next event in Lagos.",
       },
-      { property: "og:title", content: "Litville for promoters, venues and artists" },
+      { property: "og:title", content: "Host with Litville" },
       {
         property: "og:description",
         content:
-          "Ticketing, gate scanning, buyer data and payouts for Lagos promoters, venues and performing artists.",
+          "Ticketing, guest check-in, sales reporting and payouts for promoters, venues and performers in Lagos.",
       },
     ],
   }),
@@ -23,32 +23,32 @@ export const Route = createFileRoute("/organisers")({
 const tools = [
   {
     title: "Create a show in minutes",
-    body: "Line-up, tiers, zones, capacity and art. Your event page is live and sellable the moment you publish.",
+    body: "Line-up, ticket tiers, capacity and artwork. Your event page is ready to sell the moment it goes live.",
   },
   {
     title: "Sales you can actually see",
-    body: "Live tickets sold per tier, revenue and the buyer list — instead of counting WhatsApp messages.",
+    body: "See tickets sold per tier, revenue and your guest list as it happens — no more counting WhatsApp messages.",
   },
   {
-    title: "Gate scanning",
-    body: "Every ticket carries a unique QR. Gate staff scan on a phone; duplicates get flagged instantly.",
+    title: "Smooth check-in",
+    body: "Every ticket carries a unique QR code. Your team scans on a phone at the door and duplicates are flagged instantly.",
   },
   {
     title: "Payouts after the show",
-    body: "Paystack handles collection and settlement, so your split lands without chasing anyone.",
+    body: "Payments are collected and settled through Paystack, so your share arrives without the chase.",
   },
 ];
 
 function Organisers() {
   return (
     <div className="mx-auto max-w-6xl px-5 py-14">
-      <p className="eyebrow">For the supply side</p>
+      <p className="eyebrow">Host with Litville</p>
       <h1 className="mt-3 max-w-2xl text-5xl">
         Run the show. <span className="text-gradient-heat">Keep the data.</span>
       </h1>
       <p className="mt-4 max-w-xl text-sm text-muted-foreground">
-        Litville is proving the loop on its own events first. Promoters, venues and artists who want in
-        on the next wave can register interest now.
+        Comedy specials, concerts, parties and cultural nights — if it happens live, we can ticket it.
+        Promoters, venues and performers can partner with Litville today.
       </p>
 
       <div className="mt-10 grid gap-5 sm:grid-cols-2">
@@ -61,7 +61,7 @@ function Organisers() {
       </div>
 
       <div className="mt-12 rounded-lg border border-border bg-surface/50 p-8">
-        <h2 className="text-2xl">Want Litville to ticket your next night?</h2>
+        <h2 className="text-2xl">Ready to ticket your next event?</h2>
         <p className="mt-3 max-w-xl text-sm text-muted-foreground">
           Email the team with your date, venue and expected capacity and we'll come back with terms.
         </p>
@@ -69,8 +69,8 @@ function Organisers() {
           <a href="mailto:promoters@litville.ng" className="btn-heat">
             Email promoters@litville.ng
           </a>
-          <Link to="/event/$slug" params={{ slug: "litville-live-lagos-nights" }} className="btn-ghost-line">
-            See a live event page
+          <Link to="/events" className="btn-ghost-line">
+            See our events
           </Link>
         </div>
       </div>

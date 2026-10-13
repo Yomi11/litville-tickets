@@ -12,16 +12,16 @@ export const Route = createFileRoute("/community")({
   loader: ({ context }) => context.queryClient.ensureQueryData(reviewsQuery),
   head: () => ({
     meta: [
-      { title: "Community — rate shows, albums and singles | Litville" },
+      { title: "Reviews — rate the events you attend | Litville" },
       {
         name: "description",
         content:
-          "Score the shows you attended and the releases you're playing. Litville reviews are public so the next night runs better.",
+          "Rate the Litville events you attended and share your take. Reviews are public and help us make every experience better.",
       },
-      { property: "og:title", content: "Litville community reviews" },
+      { property: "og:title", content: "Litville reviews" },
       {
         property: "og:description",
-        content: "Rate Afrobeats shows, albums and singles alongside other Litville fans.",
+        content: "Rate shows, events and releases alongside other Litville guests.",
       },
     ],
   }),
@@ -59,10 +59,10 @@ function Community() {
 
   return (
     <div className="mx-auto max-w-6xl px-5 py-14">
-      <p className="eyebrow">Community</p>
-      <h1 className="mt-3 text-5xl">Rate the night</h1>
+      <p className="eyebrow">Reviews</p>
+      <h1 className="mt-3 text-5xl">Rate the experience</h1>
       <p className="mt-4 max-w-xl text-sm text-muted-foreground">
-        Shows, album drops, singles — score them and say why. Everything here is public.
+        Been to a show? Score it and tell us why. All reviews are public.
       </p>
 
       <div className="mt-10 grid gap-10 lg:grid-cols-[0.8fr_1fr]">
@@ -93,7 +93,7 @@ function Community() {
                   onChange={(e) => setSubjectType(e.target.value)}
                   className="field mt-2"
                 >
-                  <option value="show">Show</option>
+                  <option value="show">Show or event</option>
                   <option value="album">Album</option>
                   <option value="single">Single</option>
                 </select>
@@ -126,7 +126,7 @@ function Community() {
                 value={subjectTitle}
                 onChange={(e) => setSubjectTitle(e.target.value)}
                 className="field mt-2"
-                placeholder="Litville Live: Lagos Nights"
+                placeholder="Mimicko Live"
               />
             </div>
             <div>
@@ -139,7 +139,7 @@ function Community() {
                 value={body}
                 onChange={(e) => setBody(e.target.value)}
                 className="field mt-2"
-                placeholder="Sound, crowd, gate speed, set list…"
+                placeholder="Performance, atmosphere, entry, value…"
               />
             </div>
           </div>
