@@ -1,6 +1,6 @@
 import { createFileRoute, Link, notFound, useNavigate } from "@tanstack/react-router";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { getEventBySlug, startCheckout } from "@/lib/litville.functions";
 import {
   formatEventDate,
@@ -66,6 +66,8 @@ function EventPage() {
   const [buyerPhone, setBuyerPhone] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+
+  const checkoutRef = useRef<HTMLFormElement>(null);
 
   const tier = useMemo(
     () => event?.tiers.find((t) => t.id === tierId) ?? event?.tiers[0],
@@ -159,6 +161,12 @@ function EventPage() {
                   onClick={() => {
                     setTierId(t.id);
                     setZoneName(null);
+                    setQuantity(1);
+                    // On phones and tablets the checkout sits below the tiers, so take the
+                    // buyer straight to it. On desktop it is already visible beside them.
+                    if (!window.matchMedia("(min-width: 1024px)").matches) {
+                      checkoutRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+                    }
                   }}
                   disabled={past || left <= 0}
                   className={`w-full rounded-lg border p-5 text-left transition-colors ${
@@ -182,9 +190,11 @@ function EventPage() {
                       </li>
                     ))}
                   </ul>
-                  <p className="mt-3 text-xs text-muted-foreground">
-                    {past ? "Sales closed" : left > 0 ? `${left} left` : "Sold out"}
-                  </p>
+                  {past || left <= 0 ? (
+                    <p className="mt-3 text-xs text-muted-foreground">
+                      {past ? "Sales closed" : "Sold out"}
+                    </p>
+                  ) : null}
                 </button>
               );
             })}
@@ -210,13 +220,14 @@ function EventPage() {
           </div>
         ) : (
         <form
+          ref={checkoutRef}
           onSubmit={handleCheckout}
-          className="h-fit rounded-lg border border-border bg-card p-6 lg:sticky lg:top-24"
+          className="h-fit scroll-mt-24 rounded-lg border border-border bg-card p-6 lg:sticky lg:top-24"
         >
           <p className="eyebrow">Checkout</p>
           <h2 className="mt-2 text-2xl">{tier.name} ticket</h2>
           <p className="mt-1 text-sm text-muted-foreground">
-            {formatNaira(Number(tier.price_kobo))} each · {remaining} available
+            {formatNaira(Number(tier.price_kobo))} per ticket
           </p>
 
           {zones.length > 0 ? (
