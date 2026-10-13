@@ -59,10 +59,13 @@ export function PageTransition() {
         phase === "leaving" ? "opacity-0" : "opacity-100"
       }`}
     >
-      <div className="display-xl animate-pulse text-4xl leading-none motion-reduce:animate-none">
-        <span>lit</span>
-        <span className="text-gradient-heat">ville</span>
-      </div>
+      <img
+        src="/brand/litville-mark-dark-192.png"
+        alt=""
+        width={192}
+        height={192}
+        className="h-24 w-24 animate-pulse motion-reduce:animate-none"
+      />
       <div className="mt-6 h-0.5 w-40 overflow-hidden rounded-full bg-border">
         <div className="page-transition-bar h-full w-1/3 rounded-full bg-gradient-heat" />
       </div>

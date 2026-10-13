@@ -50,9 +50,14 @@ export function formatEventTime(iso: string) {
 
 export function Logo() {
   return (
-    <Link to="/" className="display-xl text-2xl leading-none">
-      <span>lit</span>
-      <span className="text-gradient-heat">ville</span>
+    <Link to="/" aria-label="Litville home" className="inline-block">
+      <img
+        src="/brand/litville-wordmark-dark.png"
+        alt="Litville"
+        width={732}
+        height={416}
+        className="h-10 w-auto sm:h-12"
+      />
     </Link>
   );
 }
